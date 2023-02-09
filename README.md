@@ -1,6 +1,6 @@
 # Nim-Game
 
-Nim game for two people and player against computer.
+Nim game with c++ for two people and player against computer.
 
 
 Each pile has a certain number of objects.
