@@ -1,10 +1,13 @@
-# include <iostream>
-using namespace std;
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
-//Sinan Hacisoyu
+using namespace std;
 
 void displayStatus(int firstRow, int secondRow, int thirdRow, int fourthRow);
 void gameFunction();
+void computerPlay(int &firstRow, int &secondRow, int &thirdRow, int &fourthRow, int &turn);
+void displayRows(int firstRow, int secondRow, int thirdRow, int fourthRow);
 
 int main() {
     cout<<"Welcome to matchsticks!"<<endl;
@@ -14,7 +17,26 @@ int main() {
     if (selection == 2) {
         gameFunction();
     } else {
-        //Computer
+         int firstRow = rand() % 16 + 15;
+    int secondRow = rand() % 16 + 15;
+    int thirdRow = rand() % 16 + 15;
+    int fourthRow = rand() % 16 + 15;
+
+    int turn = 1;
+
+    displayRows(firstRow, secondRow, thirdRow, fourthRow);
+
+    while (firstRow + secondRow + thirdRow + fourthRow > 0) {
+        if (turn == 1) {
+            computerPlay(firstRow, secondRow, thirdRow, fourthRow, turn);
+        }
+
+        turn = 1;
+    }
+
+    cout << "The game is over! Computer wins!" << endl;
+
+    return 0;
     }
 }
 
@@ -106,4 +128,45 @@ void displayStatus(int firstRow, int secondRow, int thirdRow, int fourthRow) {
         cout<<"|";
     }
     cout<<endl;
+}
+
+void displayRows(int firstRow, int secondRow, int thirdRow, int fourthRow) {
+    cout << "Row 1: " << firstRow << endl;
+    cout << "Row 2: " << secondRow << endl;
+    cout << "Row 3: " << thirdRow << endl;
+    cout << "Row 4: " << fourthRow << endl;
+}
+
+void computerPlay(int &firstRow, int &secondRow, int &thirdRow, int &fourthRow, int &turn) {
+    int selectedRow;
+    int selectedAmount;
+
+    // Selecting a random row
+    selectedRow = rand() % 4 + 1;
+
+    // Selecting a random amount to remove from the selected row
+    if (selectedRow == 1) {
+        selectedAmount = min(firstRow, rand() % firstRow + 1);
+    } else if (selectedRow == 2) {
+        selectedAmount = min(secondRow, rand() % secondRow + 1);
+    } else if (selectedRow == 3) {
+        selectedAmount = min(thirdRow, rand() % thirdRow + 1);
+    } else {
+        selectedAmount = min(fourthRow, rand() % fourthRow + 1);
+    }
+
+    // Removing the selected amount from the selected row
+    if (selectedRow == 1) {
+        firstRow -= selectedAmount;
+    } else if (selectedRow == 2) {
+        secondRow -= selectedAmount;
+    } else if (selectedRow == 3) {
+        thirdRow -= selectedAmount;
+    } else {
+        fourthRow -= selectedAmount;
+    }
+
+    cout << "Computer selects row " << selectedRow << " and removes " << selectedAmount << " sticks." << endl;
+
+    displayRows(firstRow, secondRow, thirdRow, fourthRow);
 }
